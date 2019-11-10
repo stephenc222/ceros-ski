@@ -37,7 +37,17 @@ export class Skier extends Entity {
                 this.moveSkierRightDown();
                 break;
             case Constants.SKIER_DIRECTIONS.JUMP:
-                this.moveSkierJump();
+                switch (this.prevDirection) {
+                    case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
+                        this.moveSkierLeftDown();
+                        break;
+                    case Constants.SKIER_DIRECTIONS.DOWN:
+                        this.moveSkierDown();
+                        break;
+                    case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
+                        this.moveSkierRightDown();
+                        break;
+                }
                 break
         }
     }
@@ -108,6 +118,7 @@ export class Skier extends Entity {
 
     turnJump() {
         this.isJumping = true
+        this.prevDirection = this.direction
         this.setDirection(Constants.SKIER_DIRECTIONS.JUMP);
     }
     turnDown() {
