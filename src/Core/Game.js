@@ -5,6 +5,9 @@ import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
 
+const NUM_JUMP_FRAMES = 5
+let JUMP_FRAME_TICK = 0
+
 export class Game {
     gameWindow = null;
 
@@ -53,7 +56,20 @@ export class Game {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
 
         if (this.skier.isJumping) {
-            this.skier.draw(this.canvas, this.assetManager, this.skier.jumpAnimationFrame);
+            // console.log('draw jump', { isJumping: this.skier.isJumping })
+            if (this.skier.jumpAnimationFrame <= NUM_JUMP_FRAMES) {
+                // hopefully means 1 draw per 60 frames...
+                if (JUMP_FRAME_TICK % 7 === 0) {
+                    ++this.skier.jumpAnimationFrame
+                } else {
+                    this.skier.draw(this.canvas, this.assetManager, this.skier.jumpAnimationFrame);
+                }
+                JUMP_FRAME_TICK += 1
+            } else {
+                this.skier.isJumping = false
+                this.skier.jumpAnimationFrame = 0
+                JUMP_FRAME_TICK = 0
+            }
         } else {
             this.skier.draw(this.canvas, this.assetManager);
         }

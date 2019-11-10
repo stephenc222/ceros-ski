@@ -20,7 +20,7 @@ export class AssetManager {
     }
 
     loadMultipleAssets(assetUrlArr, assetName) {
-        Promise.all(assetUrlArr.map((assetUrl) => {
+        Promise.all(assetUrlArr.map((assetUrl, index) => {
             return new Promise((resolve) => {
                 const assetImage = new Image();
                 assetImage.onload = () => {
@@ -29,7 +29,7 @@ export class AssetManager {
                     if (!this.loadedAssets[assetName] || !this.loadedAssets[assetName].length) {
                         this.loadedAssets[assetName] = []
                     }
-                    this.loadedAssets[assetName].push(assetImage);
+                    this.loadedAssets[assetName][index] = assetImage;
                     resolve();
                 };
                 assetImage.src = assetUrl;
@@ -43,7 +43,6 @@ export class AssetManager {
             assetImage.onload = () => {
                 assetImage.width /= 2;
                 assetImage.height /= 2;
-
                 this.loadedAssets[assetName] = assetImage;
                 resolve();
             };
@@ -53,7 +52,7 @@ export class AssetManager {
 
     getAsset(assetName, frame) {
         if (frame !== null && frame !== undefined) {
-            return this.loadedAssets[assetName][0];
+            return this.loadedAssets[assetName][frame];
         }
         return this.loadedAssets[assetName];
     }
