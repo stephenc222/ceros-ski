@@ -20,8 +20,8 @@ export class Entity {
         };
     }
 
-    draw(canvas, assetManager) {
-        const asset = assetManager.getAsset(this.assetName);
+    draw(canvas, assetManager, frame = null) {
+        const asset = assetManager.getAsset(this.assetName, frame);
         const drawX = this.x - asset.width / 2;
         const drawY = this.y - asset.height / 2;
 

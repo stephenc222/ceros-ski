@@ -1,3 +1,5 @@
+import { SKIER_JUMP } from "../Constants";
+
 export class AssetManager {
     loadedAssets = [];
 
@@ -8,11 +10,31 @@ export class AssetManager {
         const assetPromises = [];
 
         for (const [assetName, assetUrl] of Object.entries(assets)) {
-            const assetPromise = this.loadSingleAsset(assetUrl, assetName);
+            const assetPromise = Array.isArray(assetUrl)
+                ? this.loadMultipleAssets(assetUrl, assetName)
+                : this.loadSingleAsset(assetUrl, assetName);
             assetPromises.push(assetPromise);
         }
 
         await Promise.all(assetPromises);
+    }
+
+    loadMultipleAssets(assetUrlArr, assetName) {
+        Promise.all(assetUrlArr.map((assetUrl) => {
+            return new Promise((resolve) => {
+                const assetImage = new Image();
+                assetImage.onload = () => {
+                    assetImage.width /= 2;
+                    assetImage.height /= 2;
+                    if (!this.loadedAssets[assetName] || !this.loadedAssets[assetName].length) {
+                        this.loadedAssets[assetName] = []
+                    }
+                    this.loadedAssets[assetName].push(assetImage);
+                    resolve();
+                };
+                assetImage.src = assetUrl;
+            });
+        }))
     }
 
     loadSingleAsset(assetUrl, assetName) {
@@ -29,7 +51,10 @@ export class AssetManager {
         });
     }
 
-    getAsset(assetName) {
+    getAsset(assetName, frame) {
+        if (frame !== null && frame !== undefined) {
+            return this.loadedAssets[assetName][0];
+        }
         return this.loadedAssets[assetName];
     }
 }

@@ -35,6 +35,8 @@ export class Game {
     }
 
     updateGameWindow() {
+        // if is jumping, then y+= something
+        // but disallow move to prevent jump animation
         this.skier.move();
 
         const previousGameWindow = this.gameWindow;
@@ -50,7 +52,11 @@ export class Game {
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
 
-        this.skier.draw(this.canvas, this.assetManager);
+        if (this.skier.isJumping) {
+            this.skier.draw(this.canvas, this.assetManager, this.skier.jumpAnimationFrame);
+        } else {
+            this.skier.draw(this.canvas, this.assetManager);
+        }
         this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
     }
 
@@ -78,6 +84,10 @@ export class Game {
                 break;
             case Constants.KEYS.DOWN:
                 this.skier.turnDown();
+                event.preventDefault();
+                break;
+            case Constants.KEYS.SPACE:
+                this.skier.turnJump();
                 event.preventDefault();
                 break;
         }

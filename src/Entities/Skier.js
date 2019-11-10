@@ -6,11 +6,14 @@ export class Skier extends Entity {
     assetName = Constants.SKIER_DOWN;
 
     direction = Constants.SKIER_DIRECTIONS.DOWN;
+    prevDirection = null
     speed = Constants.SKIER_STARTING_SPEED;
 
     constructor(x, y) {
         super(x, y);
         this.hasHit = false
+        this.isJumping = false
+        this.jumpAnimationFrame = 0
     }
 
     setDirection(direction) {
@@ -33,6 +36,9 @@ export class Skier extends Entity {
             case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
                 this.moveSkierRightDown();
                 break;
+            case Constants.SKIER_DIRECTIONS.JUMP:
+                this.moveSkierJump();
+                break
         }
     }
 
@@ -62,7 +68,14 @@ export class Skier extends Entity {
         this.y -= Constants.SKIER_STARTING_SPEED;
     }
 
+    moveSkierJump() {
+        this.isJumping = true
+        this.prevDirection = this.direction
+        this.setDirection(Constants.SKIER_DIRECTIONS.JUMP);
+    }
+
     turnLeft() {
+        this.isJumping = false
         if (this.direction === Constants.SKIER_DIRECTIONS.CRASH) {
             this.x -= 50
             this.hasHit = false
@@ -77,6 +90,7 @@ export class Skier extends Entity {
     }
 
     turnRight() {
+        this.isJumping = false
         if (this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
             this.moveSkierRight();
         }
@@ -86,12 +100,18 @@ export class Skier extends Entity {
     }
 
     turnUp() {
+        this.isJumping = false
         if (this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
             this.moveSkierUp();
         }
     }
 
+    turnJump() {
+        this.isJumping = true
+        this.setDirection(Constants.SKIER_DIRECTIONS.JUMP);
+    }
     turnDown() {
+        this.isJumping = false
         this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
@@ -119,8 +139,8 @@ export class Skier extends Entity {
 
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
-
-        if (collision) {
+        // TODO: here check if is jumping and if collision is rock then no crash
+        if (collision && !this.isJumping) {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         }
     };
