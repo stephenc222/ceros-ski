@@ -45,6 +45,7 @@ export class Game {
         // if is jumping, then y+= something
         // but disallow move to prevent jump animation
         if (this.rhino.isEatingSkier) {
+            this.canvas.drawText('Game Over. Reload to Restart!', this.canvas.width / 2 - 150, this.canvas.height / 2 - 50)
             return
         }
         const prevY = this.skier.y
