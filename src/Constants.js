@@ -12,6 +12,8 @@ export const TREE = 'tree';
 export const TREE_CLUSTER = 'treeCluster';
 export const ROCK1 = 'rock1';
 export const ROCK2 = 'rock2';
+export const RHINO = 'rhino';
+export const RHINO_EAT = 'rhinoEat';
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
@@ -33,7 +35,15 @@ export const ASSETS = {
     [TREE]: 'img/tree_1.png',
     [TREE_CLUSTER]: 'img/tree_cluster.png',
     [ROCK1]: 'img/rock_1.png',
-    [ROCK2]: 'img/rock_2.png'
+    [ROCK2]: 'img/rock_2.png',
+    [RHINO]: 'img/rhino_default.png',
+    [RHINO_EAT]: [
+        'img/rhino_lift_eat_1.png',
+        'img/rhino_lift_eat_2.png',
+        'img/rhino_lift_eat_3.png',
+        'img/rhino_lift_eat_4.png',
+    ],
+
 };
 
 export const SKIER_DIRECTIONS = {
