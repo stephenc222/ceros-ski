@@ -14,6 +14,7 @@ export const ROCK1 = 'rock1';
 export const ROCK2 = 'rock2';
 export const RHINO = 'rhino';
 export const RHINO_EAT = 'rhinoEat';
+export const RHINO_RUN = 'rhinoRun';
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
@@ -38,6 +39,7 @@ export const ASSETS = {
     [ROCK2]: 'img/rock_2.png',
     [RHINO]: 'img/rhino_default.png',
     [RHINO_EAT]: [
+        'img/rhino_lift.png',
         'img/rhino_lift_eat_1.png',
         'img/rhino_lift_eat_2.png',
         'img/rhino_lift_eat_3.png',

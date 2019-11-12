@@ -7,7 +7,7 @@ import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
 
 const NUM_JUMP_FRAMES = 5
-const NUM_RHINO_EAT_FRAMES = 4
+const NUM_RHINO_EAT_FRAMES = 5
 let JUMP_FRAME_TICK = 0
 let RHINO_EAT_FRAME_TICK = 0
 
